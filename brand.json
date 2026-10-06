@@ -1,0 +1,32 @@
+{
+  "_comment": "Single source of truth for the product brand and provider policy. Edit this file to rename the product, then run `npm run brand:sync` to refresh the static files that cannot read it at runtime (package.json names, CLI bin).",
+
+  "name": "FlagshipRouter",
+  "slug": "flagshiprouter",
+  "modelPrefix": "flagshiprouter",
+
+  "tagline": "Free AI models for every coding tool",
+  "description": "A local AI gateway that connects Claude Code, Codex, Cursor, Cline, OpenCode and other coding tools to free AI models through one OpenAI-compatible endpoint.",
+
+  "repository": "https://github.com/theRizwan/FlagshipRouter",
+  "branch": "main",
+
+  "updateCheck": false,
+
+  "models": {
+    "_comment": "Public model renames. Clients list and call `id` (or `name`); the router calls `target` (provider-alias/model) behind the scenes and reports `id` back in every response. hideTarget keeps the upstream model out of /v1/models and the dashboard catalog.",
+    "renames": [
+      { "id": "gpt-6-astra", "name": "GPT-6 Astra", "target": "oc/big-pickle", "hideTarget": true }
+    ]
+  },
+
+  "providers": {
+    "_comment": "freeOnly limits the dashboard, management APIs and connection store to free providers: registry entries whose category is listed here, plus entries flagged hasFree when includeHasFree is true. include/exclude take provider ids. customEndpoints enables user-defined OpenAI/Anthropic-compatible endpoints.",
+    "freeOnly": true,
+    "categories": ["free", "freeTier"],
+    "includeHasFree": true,
+    "include": [],
+    "exclude": ["antigravity", "gemini", "gemini-cli"],
+    "customEndpoints": false
+  }
+}
