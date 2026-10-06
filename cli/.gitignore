@@ -1,0 +1,5 @@
+app/*
+node_modules/*
+.tray-build/
+# copied from the repo root by scripts/build-cli.js
+brand.json

@@ -68,7 +68,7 @@ const { ensureSqliteRuntime, buildEnvWithRuntime } = require("./hooks/sqliteRunt
 const { ensureTrayRuntime } = require("./hooks/trayRuntime");
 const args = process.argv.slice(2);
 
-// Subcommands (`flagshiprouter xai video …`) run against an already-running gateway
+// Subcommands (`zimrouter xai video …`) run against an already-running gateway
 // and bypass the launcher flow (no runtime self-heal, no server spawn).
 if (args[0] === "xai" && args[1] === "video") {
   const { run } = require("./src/cli/commands/xaiVideo");
@@ -111,7 +111,7 @@ function getDisplayHost() {
   return host === DEFAULT_HOST ? "localhost" : host;
 }
 const MAX_PORT_ATTEMPTS = 10;
-// Identifiers for killAllAppProcesses - only kill flagshiprouter specifically
+// Identifiers for killAllAppProcesses - only kill zimrouter specifically
 const PROCESS_IDENTIFIERS = [
   BRAND.slug  // Only package name - avoid killing other apps
 ];
@@ -189,8 +189,8 @@ function compareVersions(a, b) {
 // Get app data dir (matches app/src/lib/dataDir.js convention)
 function getAppDataDir() {
   return process.platform === "win32"
-    ? path.join(process.env.APPDATA || "", BRAND.slug)
-    : path.join(os.homedir(), `.${BRAND.slug}`);
+    ? path.join(process.env.APPDATA || "", BRAND.dataDirName || BRAND.slug)
+    : path.join(os.homedir(), `.${BRAND.dataDirName || BRAND.slug}`);
 }
 
 // Kill PID from file (best-effort, removes file after)
@@ -247,7 +247,7 @@ function killCloudflaredByAppPort(appPort) {
   return pids;
 }
 
-// Kill all flagshiprouter processes
+// Kill all zimrouter processes
 function killAllAppProcesses(appPort) {
   return new Promise((resolve) => {
     try {
@@ -274,8 +274,8 @@ function killAllAppProcesses(appPort) {
           });
           const lines = output.split("\n").slice(1).filter(l => l.trim());
           lines.forEach(line => {
-            // Whitelist: real node process running flagshiprouter/cli.js, or next-server.
-            // Avoids killing editors/grep/strace/cursor that just have "flagshiprouter" in cmdline.
+            // Whitelist: real node process running zimrouter/cli.js, or next-server.
+            // Avoids killing editors/grep/strace/cursor that just have "zimrouter" in cmdline.
             const cmd = line.toLowerCase();
             const isAppProcess =
               (cmd.includes("node") && cmd.includes(BRAND.slug) && (cmd.includes("cli.js") || cmd.includes(`\\${BRAND.slug}`) || cmd.includes(`/${BRAND.slug}`)))
@@ -300,8 +300,8 @@ function killAllAppProcesses(appPort) {
           const lines = output.split('\n');
 
           lines.forEach(line => {
-            // Whitelist: real node process running flagshiprouter/cli.js, or next-server.
-            // Avoids killing grep/strace/editors/cursor that incidentally match "flagshiprouter".
+            // Whitelist: real node process running zimrouter/cli.js, or next-server.
+            // Avoids killing grep/strace/editors/cursor that incidentally match "zimrouter".
             const cmd = line.toLowerCase();
             const isAppProcess =
               (cmd.includes("node") && cmd.includes(BRAND.slug) && (cmd.includes("cli.js") || cmd.includes(`/${BRAND.slug}`)))
@@ -845,7 +845,7 @@ function startServer(updatePromise) {
     if (restartCount >= MAX_RESTARTS) {
       console.error(`\n⚠️  Server crashed ${MAX_RESTARTS} times. Disabling MIT and restarting...`);
       try {
-        const dbPath = path.join(os.homedir(), process.platform === "win32" ? path.join("AppData", "Roaming", BRAND.slug, "db.json") : path.join(`.${BRAND.slug}`, "db.json"));
+        const dbPath = path.join(os.homedir(), process.platform === "win32" ? path.join("AppData", "Roaming", BRAND.dataDirName || BRAND.slug, "db.json") : path.join(`.${BRAND.dataDirName || BRAND.slug}`, "db.json"));
         if (fs.existsSync(dbPath)) {
           const db = JSON.parse(fs.readFileSync(dbPath, "utf-8"));
           if (db.settings) db.settings.mitmEnabled = false;

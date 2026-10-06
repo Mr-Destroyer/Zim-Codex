@@ -1,14 +1,15 @@
 {
   "_comment": "Single source of truth for the product brand and provider policy. Edit this file to rename the product, then run `npm run brand:sync` to refresh the static files that cannot read it at runtime (package.json names, CLI bin).",
 
-  "name": "FlagshipRouter",
-  "slug": "flagshiprouter",
-  "modelPrefix": "flagshiprouter",
+  "name": "ZimRouter",
+  "slug": "zimrouter",
+  "modelPrefix": "zimrouter",
+  "dataDirName": "flagshiprouter",
 
   "tagline": "Free AI models for every coding tool",
   "description": "A local AI gateway that connects Claude Code, Codex, Cursor, Cline, OpenCode and other coding tools to free AI models through one OpenAI-compatible endpoint.",
 
-  "repository": "https://github.com/theRizwan/FlagshipRouter",
+  "repository": "https://github.com/Mr-Destroyer/Zim-Codex",
   "branch": "main",
 
   "updateCheck": false,

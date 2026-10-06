@@ -46,7 +46,7 @@ function hasSystray() {
 // binary is broken on modern OS versions.
 function cleanupLegacySystray({ silent = false } = {}) {
   // 1) Runtime dir: ~/.flagshiprouter/runtime/node_modules/systray (or %APPDATA% on Win)
-  // 2) npm global nested: <npm_prefix>/node_modules/flagshiprouter/node_modules/systray
+  // 2) npm global nested: <npm_prefix>/node_modules/zimrouter/node_modules/systray
   //    __dirname here = <pkg root>/hooks → up 1 = pkg root
   const targets = [
     path.join(getRuntimeNodeModules(), LEGACY_SYSTRAY_PKG),
@@ -127,7 +127,7 @@ function arm64AttemptMarker() {
   return path.join(getRuntimeDir(), ".tray-arm64-attempt");
 }
 
-// ensureTrayRuntime runs synchronously on every `flagshiprouter` start (cli.js), so a
+// ensureTrayRuntime runs synchronously on every `zimrouter` start (cli.js), so a
 // failed download must not re-block the next launch. Retry at most daily.
 function recentlyAttemptedArm64() {
   try {
@@ -144,7 +144,7 @@ function markArm64Attempt() {
 
 // Cleared on success so the cooldown only ever throttles *failures*. Without
 // this, anything that restores systray2's x86_64 binary later — notably a
-// globally installed flagshiprouter older than this change, which shares the same
+// globally installed zimrouter older than this change, which shares the same
 // ~/.flagshiprouter/runtime — would leave the user waiting out the cooldown.
 function clearArm64Attempt() {
   try { fs.rmSync(arm64AttemptMarker(), { force: true }); } catch {}

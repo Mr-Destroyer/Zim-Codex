@@ -26,6 +26,6 @@ module.exports = Object.freeze({
   repository: (RAW.repository || "").replace(/\/+$/, ""),
   npmPackage: RAW.slug,
   cliCommand: RAW.slug,
-  dataDirName: RAW.slug,
+  dataDirName: RAW.dataDirName || RAW.slug,
   updateCheck: RAW.updateCheck === true,
 });

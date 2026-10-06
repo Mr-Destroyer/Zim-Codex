@@ -4,7 +4,7 @@ const os = require("os");
 const { execSync } = require("child_process");
 const BRAND = require("../../brand");
 
-const APP_NAME = BRAND.slug;
+const APP_NAME = BRAND.dataDirName || BRAND.slug;
 const APP_LABEL = `com.${BRAND.slug}.autostart`;
 
 /**
@@ -13,7 +13,7 @@ const APP_LABEL = `com.${BRAND.slug}.autostart`;
  * Order of preference:
  *   1. Explicit `cliPath` argument — cleanest, used when called from running
  *      cli.js with `__filename`.
- *   2. `process.argv[1]` if it's our cli.js — true when flagshiprouter is currently
+ *   2. `process.argv[1]` if it's our cli.js — true when zimrouter is currently
  *      running and the tray menu fires this code path.
  *   3. Compute relative to this file's own location. autostart.js lives at
  *      `<pkg>/src/cli/tray/autostart.js`, so cli.js is three levels up.
@@ -116,7 +116,7 @@ function isAutoStartEnabled() {
  * launchd is managing under our agent label.
  *
  * `launchctl unload <plist>` (and `load`) for an Aqua user-domain agent sends
- * SIGTERM to the running process. When the running flagshiprouter cli.js was itself
+ * SIGTERM to the running process. When the running zimrouter cli.js was itself
  * spawned by the autostart launchd agent (i.e. user enabled autostart at
  * some point, then rebooted, then clicked the tray icon's "Disable
  * Auto-start" menu item), an unload would kill the very process executing
@@ -248,7 +248,7 @@ function enableWindows(cliPath) {
   if (!routerScript) return false;
 
   // Run node + cli.js directly, hidden window. Avoids the fragile
-  // `flagshiprouter.cmd` lookup that depended on the npm prefix path.
+  // `zimrouter.cmd` lookup that depended on the npm prefix path.
   const vbsContent = `Set WshShell = CreateObject("WScript.Shell")
 WshShell.Run """${nodePath}"" ""${routerScript}"" --tray --skip-update", 0, False
 `;

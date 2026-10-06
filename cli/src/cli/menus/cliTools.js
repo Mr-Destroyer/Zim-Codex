@@ -278,7 +278,7 @@ async function buildDroidHeader() {
     ].join("\n");
   }
 
-  // Extract FlagshipRouter custom model config
+  // Extract ZimRouter custom model config
   const custom = settings?.customModels?.find(m => m.id === `custom:${BRAND.name}-0`);
   const lines = [`Status:   ${COLORS.green}✓ Configured${COLORS.reset}`];
   if (custom?.baseUrl) lines.push(`Endpoint: ${COLORS.cyan}${custom.baseUrl}${COLORS.reset}`);
@@ -361,7 +361,7 @@ async function buildOpenClawHeader() {
     ].join("\n");
   }
 
-  // Extract FlagshipRouter provider config
+  // Extract ZimRouter provider config
   const provider = settings?.models?.providers?.[BRAND.modelPrefix];
   const primary = settings?.agents?.defaults?.model?.primary || "";
   const model = primary.startsWith(`${BRAND.modelPrefix}/`) ? primary.replace(`${BRAND.modelPrefix}/`, "") : (provider?.models?.[0]?.id || "");

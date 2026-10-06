@@ -1,6 +1,6 @@
 /**
- * `flagshiprouter xai video` — generate a Grok Imagine video through the local
- * flagshiprouter gateway and save the result as an MP4 file.
+ * `zimrouter xai video` — generate a Grok Imagine video through the local
+ * zimrouter gateway and save the result as an MP4 file.
  *
  * Flow: POST /v1/videos/generations → poll GET /v1/videos/{request_id}
  * until done/failed/timeout → download video.url → atomic rename.

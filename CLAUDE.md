@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-FlagshipRouter (`flagshiprouter-app`) — a local AI routing gateway + Next.js dashboard. It exposes one OpenAI-compatible endpoint (`/v1/*`) and routes traffic to **free** upstream providers with format translation, model-combo fallback, multi-account fallback, OAuth/API-key credential management, token refresh and usage tracking.
+ZimRouter (`zimrouter-app`) — a local AI routing gateway + Next.js dashboard. It exposes one OpenAI-compatible endpoint (`/v1/*`) and routes traffic to **free** upstream providers with format translation, model-combo fallback, multi-account fallback, OAuth/API-key credential management, token refresh and usage tracking.
 
 Two published artifacts live in this one repo:
-- The **dashboard + gateway** (root `package.json`, `flagshiprouter-app`) — the Next.js server that does the actual routing.
-- The **CLI launcher** (`cli/`, npm package `flagshiprouter`) — a separate package that starts the server, opens the browser UI and manages the tray. It has its own `package.json`, version, and build.
+- The **dashboard + gateway** (root `package.json`, `zimrouter-app`) — the Next.js server that does the actual routing.
+- The **CLI launcher** (`cli/`, npm package `zimrouter`) — a separate package that starts the server, opens the browser UI and manages the tray. It has its own `package.json`, version, and build.
 
 ## Brand, provider policy and model renames — `brand.json` is the single source
 - Never hardcode the product name, slug, data-dir name, CLI-tool provider key or repo URL. ESM code imports `BRAND` from `open-sse/config/brand.js`; CommonJS reads `cli/src/brand.js` (CLI) or `require("…/brand.json")` (src/mitm, updater). Locale files use `{{brand}}` / `{{slug}}` placeholders filled by `src/i18n/runtime.js`.

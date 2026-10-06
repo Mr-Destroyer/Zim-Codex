@@ -1,8 +1,8 @@
 services:
-  flagshiprouter:
+  zimrouter:
     build: .
-    image: flagshiprouter:latest
-    container_name: flagshiprouter
+    image: zimrouter:latest
+    container_name: zimrouter
     restart: always
     ports:
       - "20128:20128"

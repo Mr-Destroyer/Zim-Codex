@@ -1,9 +1,9 @@
-# flagshiprouter (CLI)
+# zimrouter (CLI)
 
-Launcher for [FlagshipRouter](https://github.com/theRizwan/FlagshipRouter) — a local AI gateway that routes Claude Code, Codex, Cursor, Cline, OpenCode and other coding tools to free AI models.
+Launcher for [ZimRouter](https://github.com/theRizwan/ZimRouter) — a local AI gateway that routes Claude Code, Codex, Cursor, Cline, OpenCode and other coding tools to free AI models.
 
 ```bash
-flagshiprouter
+zimrouter
 ```
 
 Starts the router on `http://localhost:20128`, opens the browser UI, and keeps a terminal menu for the terminal UI, tray mode and exit.
@@ -17,6 +17,6 @@ Starts the router on `http://localhost:20128`, opens the browser UI, and keeps a
 | `-t, --tray` | Run in the system tray (background) |
 | `-v, --version` | Show version |
 
-Data lives in `~/.flagshiprouter/` (macOS/Linux) or `%APPDATA%\flagshiprouter\` (Windows); set `DATA_DIR` to move it.
+Data lives in `~/.flagshiprouter/` (macOS/Linux) or `%APPDATA%\zimrouter\` (Windows); set `DATA_DIR` to move it.
 
 The product name, command name and data folder come from `brand.json` in the repository.

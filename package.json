@@ -1,7 +1,7 @@
 {
-  "name": "flagshiprouter-app",
+  "name": "zimrouter-app",
   "version": "1.0.0",
-  "description": "FlagshipRouter web dashboard",
+  "description": "ZimRouter web dashboard",
   "private": true,
   "scripts": {
     "launch": "node scripts/launch.mjs",

@@ -1,6 +1,6 @@
 # Docker
 
-Run FlagshipRouter in a container. Build the image locally (see below) or publish it to your own GHCR namespace with `.github/workflows/docker-publish.yml` — multi-platform `linux/amd64` + `linux/arm64`.
+Run ZimRouter in a container. Build the image locally (see below) or publish it to your own GHCR namespace with `.github/workflows/docker-publish.yml` — multi-platform `linux/amd64` + `linux/arm64`.
 
 ---
 
@@ -13,8 +13,8 @@ docker run -d \
   -p 20128:20128 \
   -v "$HOME/.flagshiprouter:/app/data" \
   -e DATA_DIR=/app/data \
-  --name flagshiprouter \
-  ghcr.io/therizwan/flagshiprouter:latest
+  --name zimrouter \
+  ghcr.io/therizwan/zimrouter:latest
 ```
 
 App listens on port `20128`. Open: http://localhost:20128
@@ -22,10 +22,10 @@ App listens on port `20128`. Open: http://localhost:20128
 ## Manage container
 
 ```bash
-docker logs -f flagshiprouter        # view logs
-docker stop flagshiprouter           # stop
-docker start flagshiprouter          # start again
-docker rm -f flagshiprouter          # remove
+docker logs -f zimrouter        # view logs
+docker stop zimrouter           # stop
+docker start zimrouter          # start again
+docker rm -f zimrouter          # remove
 ```
 
 ## Data persistence
@@ -35,7 +35,7 @@ docker rm -f flagshiprouter          # remove
 -e DATA_DIR=/app/data
 ```
 
-Without `DATA_DIR`, the app falls back to `~/.flagshiprouter/` (macOS/Linux) or `%APPDATA%\flagshiprouter\` (Windows). In the container, `DATA_DIR=/app/data` makes the bind mount work.
+Without `DATA_DIR`, the app falls back to `~/.flagshiprouter/` (macOS/Linux) or `%APPDATA%\zimrouter\` (Windows). In the container, `DATA_DIR=/app/data` makes the bind mount work.
 
 Data layout under `$DATA_DIR/`:
 
@@ -60,18 +60,18 @@ docker run -d \
   -e PORT=20128 \
   -e HOSTNAME=0.0.0.0 \
   -e DEBUG=true \
-  --name flagshiprouter \
-  ghcr.io/therizwan/flagshiprouter:latest
+  --name zimrouter \
+  ghcr.io/therizwan/zimrouter:latest
 ```
 
 ## Optional Headroom sidecar
 
-The FlagshipRouter image does not bundle Python or Headroom. To use Headroom in Docker, run it as a separate service and point FlagshipRouter at that proxy:
+The ZimRouter image does not bundle Python or Headroom. To use Headroom in Docker, run it as a separate service and point ZimRouter at that proxy:
 
 ```yaml
 services:
-  flagshiprouter:
-    image: ghcr.io/therizwan/flagshiprouter:latest
+  zimrouter:
+    image: ghcr.io/therizwan/zimrouter:latest
     ports:
       - "20128:20128"
     volumes:
@@ -95,15 +95,15 @@ If Headroom runs on the Docker host instead of as a sidecar, use `http://host.do
 ## Update to latest
 
 ```bash
-docker pull ghcr.io/therizwan/flagshiprouter:latest
-docker rm -f flagshiprouter
+docker pull ghcr.io/therizwan/zimrouter:latest
+docker rm -f zimrouter
 # re-run the quick start command
 ```
 
 To pin a specific version instead of following `latest`, use a numbered image tag:
 
 ```bash
-docker pull ghcr.io/therizwan/flagshiprouter:1.0.0
+docker pull ghcr.io/therizwan/zimrouter:1.0.0
 ```
 
 ---
@@ -113,12 +113,12 @@ docker pull ghcr.io/therizwan/flagshiprouter:1.0.0
 ## Build image locally (test)
 
 ```bash
-docker build -t flagshiprouter .
+docker build -t zimrouter .
 
 docker run --rm -p 20128:20128 \
   -v "$HOME/.flagshiprouter:/app/data" \
   -e DATA_DIR=/app/data \
-  flagshiprouter
+  zimrouter
 ```
 
 The Dockerfile uses the official Alpine and npm registries by default. Regional mirrors can be supplied when needed:
@@ -127,14 +127,14 @@ The Dockerfile uses the official Alpine and npm registries by default. Regional 
 docker build \
   --build-arg ALPINE_MIRROR=mirrors.aliyun.com \
   --build-arg NPM_REGISTRY=https://registry.npmmirror.com/ \
-  -t flagshiprouter .
+  -t zimrouter .
 ```
 
 ## Publish (automatic via CI)
 
 Push a Docker-safe semver git tag `vX.Y.Z` (or a prerelease such as `vX.Y.Z-rc.1`) → GitHub Actions builds `linux/amd64` and `linux/arm64` on native runners, health-checks each platform image, verifies the resulting manifest and `/api/health`, then publishes:
 
-- `ghcr.io/therizwan/flagshiprouter:X.Y.Z` + `:latest`
+- `ghcr.io/therizwan/zimrouter:X.Y.Z` + `:latest`
 
 The `v` prefix is used only for the git tag; image tags omit it. A stable tag push promotes `latest`, but a prerelease tag such as `vX.Y.Z-rc.1` publishes only its numbered image by default. Prereleases require an explicit manual `promote_latest` opt-in. Promotion happens only after both native platform builds, both platform health checks, manifest inspection, and the resolved-manifest smoke test succeed. A failed or timed-out platform build therefore cannot move `latest`.
 
@@ -165,7 +165,7 @@ promote_latest:  true
 Numbered image tags are mutable because a republish can replace their manifest. For a deployment that must be immutable, pin the image digest instead:
 
 ```bash
-docker pull ghcr.io/therizwan/flagshiprouter@sha256:<verified-digest>
+docker pull ghcr.io/therizwan/zimrouter@sha256:<verified-digest>
 ```
 
 The release workflow runs `/api/health` on each native `amd64` and `arm64` platform image before it uploads the digest artifact or assembles the multi-platform manifest. It then runs a second health check against the resolved version manifest before any requested `latest` promotion.
