@@ -12,8 +12,8 @@
 Requires Node.js 20.9 or newer (22 recommended).
 
 ```bash
-git clone https://github.com/theRizwan/ZimRouter.git
-cd ZimRouter
+git clone https://github.com/mr-destroyer/Zim-Codex.git
+cd Zim-Codex
 npm run launch
 ```
 
